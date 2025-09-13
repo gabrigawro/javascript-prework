@@ -35,5 +35,14 @@ h1 {
   margin: 5px 0;
   font-size: 18px;
 }
+#messages .win {
+  color: #0a8a0a;
+}
+#messages .lose {
+  color: #c01818;
+}
+#messages .draw {
+  color: #666;
+}
 
 /*# sourceMappingURL=main.css.map */

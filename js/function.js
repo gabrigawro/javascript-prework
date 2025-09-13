@@ -1,18 +1,19 @@
+// js/script.js
 
-// zamiana liczby 1..3 na słowo
+// helper: 1..3 -> 'kamień' | 'papier' | 'nożyce'
 function getMoveName(num) {
 if (num === 1) return 'kamień';
 if (num === 2) return 'papier';
 return 'nożyce';
 }
 
-// ustalenie wyniku i ogłoszenie
+// helper: ustalenie wyniku i komunikaty
 function displayResult(playerMove, computerMove) {
 if (playerMove === computerMove) {
 printMessage('Remis! Obaj wybraliście: ' + playerMove + '.');
 return;
 }
-var playerWins =
+const playerWins =
 (playerMove === 'kamień' && computerMove === 'nożyce') ||
 (playerMove === 'papier' && computerMove === 'kamień') ||
 (playerMove === 'nożyce' && computerMove === 'papier');
@@ -24,29 +25,28 @@ printMessage('Przegrywasz! ' + computerMove + ' pokonuje ' + playerMove + '.');
 }
 }
 
-// jedno rozdanie
+// główna funkcja jednego rozdania
 function playGame(playerMove) {
 clearMessages();
-var randomNumber = Math.floor(Math.random() * 3) + 1;
-var computerMove = getMoveName(randomNumber);
 
-printMessage('Komputer: <strong>' + computerMove + '</strong>');
-printMessage('Gracz: <strong>' + playerMove + '</strong>');
+const randomNumber = Math.floor(Math.random() * 3) + 1;
+const computerMove = getMoveName(randomNumber);
+
+printMessage('Mój ruch: <strong>' + computerMove + '</strong>');
+printMessage('Twój ruch: <strong>' + playerMove + '</strong>');
 
 displayResult(playerMove, computerMove);
 }
 
-// tworzymy przyciski
+// UI: tworzymy trzy przyciski
 (function createButtons(){
-var buttonsBox = document.getElementById('buttons');
-var moves = ['kamień', 'papier', 'nożyce'];
+const buttonsBox = document.getElementById('buttons');
+const moves = ['kamień', 'papier', 'nożyce'];
 
-moves.forEach(function(move){
-var btn = document.createElement('button');
+moves.forEach((move) => {
+const btn = document.createElement('button');
 btn.textContent = move.toUpperCase();
-btn.addEventListener('click', function(){ playGame(move); });
+btn.addEventListener('click', () => playGame(move));
 buttonsBox.appendChild(btn);
 });
 })();
-
-
