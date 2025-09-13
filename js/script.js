@@ -1,52 +1,54 @@
-
-// zamiana liczby 1..3 na słowo
-function getMoveName(num) {
-if (num === 1) return 'kamień';
-if (num === 2) return 'papier';
+function getMoveName(argMoveId){
+if(argMoveId == 1){
+return 'kamień';
+} else if(argMoveId == 2){
+return 'papier';
+} else if(argMoveId == 3){
 return 'nożyce';
-}
-
-// ustalenie wyniku i ogłoszenie
-function displayResult(playerMove, computerMove) {
-if (playerMove === computerMove) {
-printMessage('Remis! Obaj wybraliście: ' + playerMove + '.');
-return;
-}
-var playerWins =
-(playerMove === 'kamień' && computerMove === 'nożyce') ||
-(playerMove === 'papier' && computerMove === 'kamień') ||
-(playerMove === 'nożyce' && computerMove === 'papier');
-
-if (playerWins) {
-printMessage('Wygrywasz! ' + playerMove + ' pokonuje ' + computerMove + '.');
 } else {
-printMessage('Przegrywasz! ' + computerMove + ' pokonuje ' + playerMove + '.');
+printMessage('Nie znam ruchu o id ' + argMoveId + '. Zakładam, że chodziło o "kamień".');
+return 'kamień';
 }
 }
 
-// jedno rozdanie
-function playGame(playerMove) {
+function displayResult(argPlayerMove, argComputerMove){
+printMessage('Zagrałem ' + argComputerMove + ', a Ty ' + argPlayerMove);
+
+if(argPlayerMove == argComputerMove){
+printMessage('Remis!');
+} else if(
+(argPlayerMove == 'kamień' && argComputerMove == 'nożyce') ||
+(argPlayerMove == 'papier' && argComputerMove == 'kamień') ||
+(argPlayerMove == 'nożyce' && argComputerMove == 'papier')
+){
+printMessage('Wygrywasz!');
+} else {
+printMessage('Przegrywasz!');
+}
+}
+
+function buttonClicked(argButtonName){
 clearMessages();
-var randomNumber = Math.floor(Math.random() * 3) + 1;
-var computerMove = getMoveName(randomNumber);
+console.log(argButtonName + ' został kliknięty');
 
-printMessage('Komputer: <strong>' + computerMove + '</strong>');
-printMessage('Gracz: <strong>' + playerMove + '</strong>');
+var playerMove = argButtonName;
+var randomNumber = Math.floor(Math.random() * 3 + 1);
+var computerMove = getMoveName(randomNumber);
 
 displayResult(playerMove, computerMove);
 }
 
-// tworzymy przyciski
-(function createButtons(){
-var buttonsBox = document.getElementById('buttons');
-var moves = ['kamień', 'papier', 'nożyce'];
-
-moves.forEach(function(move){
-var btn = document.createElement('button');
-btn.textContent = move.toUpperCase();
-btn.addEventListener('click', function(){ playGame(move); });
-buttonsBox.appendChild(btn);
+var buttonRock = document.getElementById('button-rock');
+buttonRock.addEventListener('click', function(){
+buttonClicked('kamień');
 });
-})();
 
+var buttonPaper = document.getElementById('button-paper');
+buttonPaper.addEventListener('click', function(){
+buttonClicked('papier');
+});
 
+var buttonScissors = document.getElementById('button-scissors');
+buttonScissors.addEventListener('click', function(){
+buttonClicked('nożyce');
+});
