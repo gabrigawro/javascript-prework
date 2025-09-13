@@ -1,54 +1,68 @@
-function getMoveName(argMoveId){
-if(argMoveId == 1){
-return 'kamień';
-} else if(argMoveId == 2){
-return 'papier';
-} else if(argMoveId == 3){
-return 'nożyce';
-} else {
-printMessage('Nie znam ruchu o id ' + argMoveId + '. Zakładam, że chodziło o "kamień".');
+// Zamienia liczbę 1..3 na słowo
+function getMoveName(id){
+if (id === 1) return 'kamień';
+if (id === 2) return 'papier';
+if (id === 3) return 'nożyce';
+printMessage('Nie znam ruchu o id ' + id + '. Zakładam, że chodziło o "kamień".');
 return 'kamień';
 }
-}
 
-function displayResult(argPlayerMove, argComputerMove){
-printMessage('Zagrałem ' + argComputerMove + ', a Ty ' + argPlayerMove);
+// Wyświetla wynik jednej rundy
+function displayResult(playerMove, computerMove){
+printMessage('Zagrałem ' + computerMove + ', a Ty ' + playerMove);
 
-if(argPlayerMove == argComputerMove){
+if (playerMove === computerMove) {
 printMessage('Remis!');
-} else if(
-(argPlayerMove == 'kamień' && argComputerMove == 'nożyce') ||
-(argPlayerMove == 'papier' && argComputerMove == 'kamień') ||
-(argPlayerMove == 'nożyce' && argComputerMove == 'papier')
-){
-printMessage('Wygrywasz!');
-} else {
-printMessage('Przegrywasz!');
-}
+return;
 }
 
-function buttonClicked(argButtonName){
+const playerWins =
+(playerMove === 'kamień' && computerMove === 'nożyce') ||
+(playerMove === 'papier' && computerMove === 'kamień') ||
+(playerMove === 'nożyce' && computerMove === 'papier');
+
+printMessage(playerWins ? 'Wygrywasz!' : 'Przegrywasz!');
+}
+
+// Jedno rozdanie gry
+function playGame(playerMove){
 clearMessages();
-console.log(argButtonName + ' został kliknięty');
 
-var playerMove = argButtonName;
-var randomNumber = Math.floor(Math.random() * 3 + 1);
-var computerMove = getMoveName(randomNumber);
+const randomNumber = Math.floor(Math.random() * 3) + 1;
+const computerMove = getMoveName(randomNumber);
+
+printMessage('Komputer: <strong>' + computerMove + '</strong>');
+printMessage('Gracz: <strong>' + playerMove + '</strong>');
 
 displayResult(playerMove, computerMove);
 }
 
-var buttonRock = document.getElementById('button-rock');
-buttonRock.addEventListener('click', function(){
-buttonClicked('kamień');
-});
+// Podpinamy przyciski (mały zakres zmiennych)
+(function initUI(){
+const buttonsBox = document.getElementById('buttons');
+const btnRock = document.getElementById('button-rock');
+const btnPaper = document.getElementById('button-paper');
+const btnSciss = document.getElementById('button-scissors');
 
-var buttonPaper = document.getElementById('button-paper');
-buttonPaper.addEventListener('click', function(){
-buttonClicked('papier');
-});
+// Gdyby przycisków nie było w HTML, tworzymy je dynamicznie:
+if (!btnRock || !btnPaper || !btnSciss) {
+const create = (id, label) => {
+const b = document.createElement('button');
+b.id = id; b.textContent = label;
+buttonsBox.appendChild(b);
+return b;
+};
+const r = create('button-rock', 'Kamień');
+const p = create('button-paper', 'Papier');
+const s = create('button-scissors', 'Nożyce');
 
-var buttonScissors = document.getElementById('button-scissors');
-buttonScissors.addEventListener('click', function(){
-buttonClicked('nożyce');
-});
+r.addEventListener('click', () => playGame('kamień'));
+p.addEventListener('click', () => playGame('papier'));
+s.addEventListener('click', () => playGame('nożyce'));
+return;
+}
+
+btnRock.addEventListener('click', () => playGame('kamień'));
+btnPaper.addEventListener('click', () => playGame('papier'));
+btnSciss.addEventListener('click', () => playGame('nożyce'));
+})();
