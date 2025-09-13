@@ -1,0 +1,19 @@
+{
+"name": "javascript-prework",
+"version": "1.0.0",
+"description": "",
+"scripts": {
+"serve": "browser-sync start --server --files \"css/*.css\" \"*.html\"",
+"validate:html": "html-validate \"**/*.html\"",
+"build:sass": "sass src/scss/main.scss dist/css/main.css",
+"watch:sass": "sass --watch src/scss/main.scss dist/css/main.css",
+"watch": "npm run watch:sass",
+"init-project": "mkdir src && mkdir src\\js && mkdir src\\scss && type NUL > index.html && type NUL > src\\js\\script.js && type NUL > src\\scss\\main.scss"
+},
+"license": "ISC",
+"devDependencies": {
+"browser-sync": "^2.29.3",
+"html-validate": "^9.0.0",
+"sass": "^1.77.0"
+}
+}
